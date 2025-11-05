@@ -2,15 +2,19 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 )
 
 func main() {
 
 	showIntroduction()
-	showMenu()
-	option := readOption()
-	processOption(option)
+
+	for {
+		showMenu()
+		option := readOption()
+		processOption(option)
+	}
 
 	/**
 	if option == 1 {
@@ -51,7 +55,7 @@ func readOption() int {
 func processOption(option int) {
 	switch option {
 	case 1:
-		fmt.Println("Starting monitoring...")
+		startMonitoring()
 	case 2:
 		fmt.Println("Showing logs...")
 	case 0:
@@ -60,5 +64,21 @@ func processOption(option int) {
 	default:
 		fmt.Println("Invalid option. Please try again.")
 		os.Exit(-1)
+	}
+
+}
+
+func startMonitoring() {
+	fmt.Println("Starting monitoring...")
+	site := "http://www.alura.com.br"
+	response, _ := http.Get(site)
+	fmt.Println("Response status code:", response.StatusCode)
+
+	responseHttpStatusCodce := response.StatusCode == 200
+
+	if responseHttpStatusCodce {
+		fmt.Println("Site", site, "is up!")
+	} else {
+		fmt.Println("Site ", site, "is down!")
 	}
 }
