@@ -1,16 +1,18 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
 const delay = 1
 
 func main() {
-
 	showIntroduction()
 
 	for {
@@ -82,13 +84,40 @@ func showLogsBeforeTestSites(sites []string) {
 }
 
 func getSitesToBeMonitored() []string {
-	return []string{
-		"http://www.alura.com.br",
-		"http://www.caelum.com.br",
-		"http://www.google.com",
-		"http://www.uol.com.br",
-		"http://www.terra.com.br",
+	// return []string{
+	// 	"http://www.alura.com.br",
+	// 	"http://www.caelum.com.br",
+	// 	"http://www.google.com",
+	// 	"http://www.uol.com.br",
+	// 	"http://www.terra.com.br",
+	// }
+
+	return readSitesFromFile()
+}
+
+func readSitesFromFile() []string {
+	var sites []string
+	file, err := os.Open("sites.txt")
+	if err != nil {
+		fmt.Println("An error occurred while trying to read the file:", err)
 	}
+	// file, err := ioutil.ReadFile("sites.txt")
+	reader := bufio.NewReader(file)
+	for {
+		line, err := reader.ReadString('\n')
+		line = strings.TrimSpace(line)
+		fmt.Println(line)
+		sites = append(sites, line)
+		if err == io.EOF {
+			break
+		}
+	}
+	file.Close()
+
+	//fmt.Println(string(file))
+	//fmt.Println(file)
+
+	return sites
 }
 
 func processMonitoring(sites []string) {
@@ -96,7 +125,10 @@ func processMonitoring(sites []string) {
 
 	for i := 0; i < len(sites); i++ {
 		fmt.Println("========================================")
-		response, _ := http.Get(sites[i])
+		response, err := http.Get(sites[i])
+		if err != nil {
+			fmt.Println("An error occurred while trying to access the site:", err)
+		}
 		responseHttpStatusCodce = response.StatusCode == 200
 		fmt.Println("Response status code:", response.StatusCode)
 
