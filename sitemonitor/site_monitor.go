@@ -4,8 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -52,6 +54,7 @@ func processOption(option int) {
 		startMonitoring()
 	case 2:
 		fmt.Println("Showing logs...")
+		printLogs()
 	case 0:
 		fmt.Println("Exiting...")
 		os.Exit(0)
@@ -134,10 +137,32 @@ func processMonitoring(sites []string) {
 
 		if responseHttpStatusCodce {
 			fmt.Println("Site", sites[i], "is up!")
+			registerLog(sites[i], true)
 		} else {
 			fmt.Println("Site ", sites[i], "is down!")
+			registerLog(sites[i], false)
 		}
 		time.Sleep(delay * time.Second)
 		fmt.Println("========================================")
 	}
+}
+
+func registerLog(site string, status bool) {
+	file, err := os.OpenFile("logs.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+
+	if err != nil {
+		fmt.Println("An error occurred while trying to open the log file:", err)
+	}
+
+	file.WriteString(time.Now().Format("02/01/2006 15:04:05 ") + site + " -online: " + strconv.FormatBool(status) + "\n")
+	fmt.Println(file)
+	file.Close()
+}
+
+func printLogs() {
+	file, err := ioutil.ReadFile("logs.txt")
+	if err != nil {
+		fmt.Println("An error occurred while trying to read the log file:", err)
+	}
+	fmt.Println(string(file))
 }

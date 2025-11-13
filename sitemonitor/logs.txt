@@ -1,0 +1,15 @@
+10/11/2025 15:21:17 http://www.alura.com.br -online: true
+10/11/2025 15:21:18 http://www.caelum.com.br -online: true
+10/11/2025 15:21:19 http://www.google.com -online: true
+10/11/2025 15:21:20 http://www.uol.com.br -online: true
+10/11/2025 15:21:22 http://www.terra.com.br -online: true
+10/11/2025 15:22:48 http://www.alura.com.br -online: true
+10/11/2025 15:22:49 http://www.caelum.com.br -online: true
+10/11/2025 15:22:50 http://www.google.com -online: true
+10/11/2025 15:22:51 http://www.uol.com.br -online: true
+10/11/2025 15:22:53 http://www.terra.com.br -online: true
+10/11/2025 15:23:02 http://www.alura.com.br -online: true
+10/11/2025 15:23:03 http://www.caelum.com.br -online: true
+10/11/2025 15:23:04 http://www.google.com -online: true
+10/11/2025 15:23:05 http://www.uol.com.br -online: true
+10/11/2025 15:23:06 http://www.terra.com.br -online: true
